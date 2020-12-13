@@ -21,18 +21,20 @@ fetch('http://localhost:3000')
 
     })
 
+buscarNome.addEventListener('click', function (event) {
+    event.preventDefault()
+    let lat = document.getElementById('lat').value;
+    let long = document.getElementById('long').value;    
+    var nome1 = document.querySelector('#nome1').value;
 
-    
-    
-    
-    buscarNome.addEventListener('click', function (event) {
-        event.preventDefault()
-        var nome1 = document.querySelector('#nome1').value;
-        nome(nome1)
-    })
-    
-    
-    function nome(nome1) {
+    if (lat && long) {
+        console.log([lat, long]);
+        L.marker([lat, long]).addTo(mymap).bindPopup(nome1)
+        mymap.setView([lat, long], 5);
+
+    }
+    else {
+        console.log(navigator.geolocation);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(pinnar)
             return true
@@ -40,12 +42,16 @@ fetch('http://localhost:3000')
             x.innerHTML = "Falaha ao localizar por esse navegador"
             return false
         }
+
     }
-    
-    
-    function pinnar(posicao) {
-        latit = posicao.coords.latitude
-        longit = posicao.coords.longitude
-        L.marker([latit, longit]).addTo(mymap).bindPopup(nome1.value)
-        mymap.setView([latit, longit], 5);
-    }
+
+})
+
+
+function pinnar(posicao) {
+    latit = posicao.coords.latitude
+    longit = posicao.coords.longitude
+    L.marker([latit, longit]).addTo(mymap).bindPopup(nome1.value)
+    mymap.setView([latit, longit], 5);
+
+}
